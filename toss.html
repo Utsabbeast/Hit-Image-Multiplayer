@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bench Toss: Classroom Shadows</title>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="toss.css?v=2">
+</head>
+
+<body>
+
+    <button id="mute-btn" onclick="toggleMute()">🔊</button>
+    <div class="shadow-passer shadow-1">
+        <div class="shoulders"></div>
+        <div class="head"></div>
+    </div>
+    <div class="shadow-passer shadow-2">
+        <div class="shoulders"></div>
+        <div class="head"></div>
+    </div>
+
+    <div id="menu-overlay">
+        <div class="menu-card">
+            <h1 style="margin:0; font-size: 38px;">HIT THE IMAGE</h1>
+            <p id="loading-status" style="font-size: 20px;">Join a room to play!</p>
+            <input type="text" id="player-name-input" class="room-input" placeholder="Your Name"
+                style="margin-bottom: 5px;">
+            <input type="text" id="room-code-input" class="room-input" placeholder="Enter Room Code (e.g., 1234)">
+            <div style="display: flex; justify-content: center; margin-top: 5px;">
+                <button class="time-btn" onclick="setTime(30)" onmouseenter="playSelectSound()">30s</button>
+                <button class="time-btn active" onclick="setTime(60)" onmouseenter="playSelectSound()">1m</button>
+                <button class="time-btn" onclick="setTime(120)" onmouseenter="playSelectSound()">2m</button>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                <button id="start-btn" onclick="joinRoom()" onmouseenter="playSelectSound()">JOIN ROOM</button>
+                <button id="create-btn" onclick="createRoom()" onmouseenter="playSelectSound()">CREATE ROOM</button>
+            </div>
+            <button id="single-player-btn" class="action-btn" onclick="startSinglePlayer()"
+                onmouseenter="playSelectSound()"
+                style="margin-top: 15px; font-size: 20px; background: linear-gradient(135deg, #9b59b6, #8e44ad); box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3);">PLAY
+                ALONE</button>
+        </div>
+    </div>
+
+    <div id="error-overlay" style="display:none; z-index: 100;" class="full-overlay">
+        <div class="menu-card" style="transform: rotate(-2deg); background-color: #ffc1cc;">
+            <div class="tape"></div>
+            <h1 style="margin:0 0 10px 0; font-size: 32px; color: #c0392b;">Oops!</h1>
+            <p id="error-message" style="font-size: 22px; margin: 15px 0; color: #333;">Error text goes here.</p>
+            <button class="action-btn" onclick="document.getElementById('error-overlay').style.display='none'"
+                style="margin-top: 15px; font-size: 18px; background: #e74c3c;">OK</button>
+        </div>
+    </div>
+
+    <div id="game-over-overlay" style="display:none;" class="full-overlay">
+        <div class="menu-card" style="transform: rotate(1deg);">
+            <h1 id="game-over-title" style="margin:0; font-size: 38px;">TIME'S UP!</h1>
+            <p style="font-size: 26px; margin: 15px 0;">Score: <b id="final-score">0</b></p>
+            <button class="action-btn" onclick="location.reload()">MAIN MENU</button>
+        </div>
+    </div>
+
+    <!-- Permanent Right Leaderboard Panel -->
+    <div id="leaderboard-panel" class="side-panel right-panel">
+        <h2
+            style="margin:0 0 10px 0; font-size: 26px; color: #2c3e50; text-align: center; border-bottom: 2px solid #e0dcd3; padding-bottom: 5px;">
+            LEADERBOARD</h2>
+        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+            <button class="time-btn active" id="lb-btn-30" onclick="fetchLeaderboard(30)"
+                style="font-size: 14px; padding: 4px 8px; margin: 0 2px;">30s</button>
+            <button class="time-btn" id="lb-btn-60" onclick="fetchLeaderboard(60)"
+                style="font-size: 14px; padding: 4px 8px; margin: 0 2px;">60s</button>
+            <button class="time-btn" id="lb-btn-120" onclick="fetchLeaderboard(120)"
+                style="font-size: 14px; padding: 4px 8px; margin: 0 2px;">2m</button>
+        </div>
+        <div id="leaderboard-list"
+            style="text-align: left; font-size: 18px; min-height: 150px; background: rgba(0,0,0,0.03); border-radius: 4px; padding: 10px; border: 1px dotted rgba(0,0,0,0.2);">
+            Loading...
+        </div>
+    </div>
+
+    <div class="hud" id="hud" style="display: none;">
+        <div
+            style="font-size: 28px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; margin-bottom: 5px; text-align: center;">
+            Time: <b id="timer" style="color:#e74c3c;">60</b>
+        </div>
+
+        <div id="copy-container" style="display:none; font-size: 18px; margin-bottom: 10px;">
+            <div style="margin-bottom: 5px;">Room:</div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <b id="room-display" style="color:#3498db; font-size: 22px;">---</b>
+                <button id="copy-btn" onclick="copyRoomCode()"
+                    style="padding: 4px 8px; font-size: 14px; cursor: pointer; border-radius: 4px; border: 2px solid #333; font-family: 'Handlee', cursive;">Copy</button>
+            </div>
+        </div>
+
+        <div class="hud-score"
+            style="display: flex; flex-direction: column; gap: 5px; border-top: 2px dashed #ccc; padding-top: 10px;">
+            <div style="font-size: 20px;"><span id="my-name-display">You</span>: <b id="lvl" style="color:#27ae60; font-size: 24px;">0</b></div>
+            <div style="font-size: 20px;">
+                <span id="opponent-status" style="font-size: 14px; opacity: 0.7; display: block;">Waiting...</span>
+                <span id="opp-name-display">Opp</span>: <b id="opponent-score" style="color:#e67e22; font-size: 24px;">0</b>
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-container">
+        <div class="power-meter">
+            <div id="power-level"></div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <script src="toss.js?v=3"></script>
+</body>
+
+</html>
