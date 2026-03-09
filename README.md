@@ -1,6 +1,6 @@
-# Bench Toss Multiplayer 🗑️🏀
+# HIT THE IMAGE Multiplayer 🗑️🏀
 
-Welcome to **Bench Toss Multiplayer**, a real-time multiplayer web game where two players compete to see who can toss the most paper balls into a trash can before the timer runs out!
+Welcome to **HIT THE IMAGE Multiplayer**, a real-time multiplayer web game where two players compete to see who can toss the most paper balls into a trash can before the timer runs out!
 
 ## Features ✨
 - **Real-Time Multiplayer**: Built with Python WebSockets (FastAPI) for instant syncing between two players.
@@ -29,7 +29,7 @@ If you want to run the game on your own machine:
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/YOUR_USERNAME/bench-toss-multiplayer.git
-   cd bench-toss-multiplayer
+   cd Hit-Image-Multiplayer
    ```
 
 2. **Set up a Python Virtual Environment:**
@@ -55,4 +55,4 @@ If you want to run the game on your own machine:
    Open your browser and navigate to `http://localhost:8000`
 
 ---
-*Created by [Your Name]*
+*Created by Utsab Das*
