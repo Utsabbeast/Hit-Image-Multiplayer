@@ -229,7 +229,7 @@ canvas {
         top: auto;
         bottom: 20px;
         transform: none;
-        width: calc(100% - 80px); /* Account for padding from edges */
+        width: calc(100% - 80px);
         left: 50%;
         transform: translateX(-50%);
         min-height: auto;
@@ -252,10 +252,14 @@ canvas {
 }
 
 @media (max-width: 768px) {
-    /* Scale down canvas container on smaller screens */
+    body {
+        justify-content: flex-start;
+        padding-top: 100px;
+    }
+    
     #canvas-container {
-        transform: scale(0.85);
-        margin-top: 50px;
+        transform: scale(0.9);
+        margin-top: 20px;
     }
     
     .menu-card {
@@ -264,27 +268,47 @@ canvas {
     }
     
     .hud {
+        flex-direction: column;
         flex-wrap: wrap;
         width: calc(100% - 40px);
         justify-content: center;
         top: 10px;
         left: 50%;
         transform: translateX(-50%);
+        box-sizing: border-box;
     }
     
     .hud > div {
         border: none !important;
-        padding: 5px 10px !important;
+        border-bottom: 1px dashed #ccc !important;
+        padding: 5px !important;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .hud > div:last-child {
+        border-bottom: none !important;
     }
 }
 
 @media (max-width: 480px) {
-    /* Super small screens */
+    body {
+        padding-top: 140px;
+    }
+
     #canvas-container {
-        transform: scale(0.65);
-        margin-top: 100px;
+        transform: scale(0.7);
+        margin-top: 10px;
+        padding: 8px;
     }
     
+    .power-meter {
+        left: -30px;
+        bottom: 15px;
+        height: 180px;
+        width: 15px;
+    }
+
     .time-btn {
         padding: 8px 12px;
         font-size: 14px;
@@ -292,5 +316,17 @@ canvas {
     
     h1 {
         font-size: 28px !important;
+    }
+    
+    .room-input {
+        width: 100%;
+        font-size: 16px;
+    }
+    
+    /* Move leaderboard strictly to the bottom of the visible screen */
+    .side-panel {
+        bottom: 10px;
+        width: calc(100% - 40px);
+        padding: 10px;
     }
 }
