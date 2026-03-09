@@ -1,5 +1,8 @@
 # HIT THE IMAGE Multiplayer 🗑️🏀
 
+**Play it live here:** [https://hit-it.onrender.com/](https://hit-it.onrender.com/)  
+*(Note: I am still working on this, so please play this on PC only for now!)*
+
 Welcome to **HIT THE IMAGE Multiplayer**, a real-time multiplayer web game where two players compete to see who can toss the most paper balls into a trash can before the timer runs out!
 
 ## Features ✨
