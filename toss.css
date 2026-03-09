@@ -202,3 +202,95 @@ canvas {
         transform: rotate(1deg) scale(1.01);
     }
 }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 1024px) {
+    .hud {
+        top: 20px;
+        left: 20px;
+        transform: none;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+    }
+    
+    .hud > div {
+        border-bottom: none !important;
+        border-top: none !important;
+        border-right: 2px dashed #ccc;
+        padding: 0 15px !important;
+        margin: 0 !important;
+    }
+    .hud > div:last-child {
+        border-right: none;
+    }
+
+    .side-panel {
+        top: auto;
+        bottom: 20px;
+        transform: none;
+        width: calc(100% - 80px); /* Account for padding from edges */
+        left: 50%;
+        transform: translateX(-50%);
+        min-height: auto;
+    }
+    
+    #leaderboard-list {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        overflow-x: auto;
+        min-height: auto !important;
+        padding: 5px !important;
+    }
+    
+    #leaderboard-list > div {
+        flex: 0 0 auto;
+        border-right: 1px dotted rgba(0,0,0,0.2);
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Scale down canvas container on smaller screens */
+    #canvas-container {
+        transform: scale(0.85);
+        margin-top: 50px;
+    }
+    
+    .menu-card {
+        width: 85%;
+        padding: 20px;
+    }
+    
+    .hud {
+        flex-wrap: wrap;
+        width: calc(100% - 40px);
+        justify-content: center;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .hud > div {
+        border: none !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Super small screens */
+    #canvas-container {
+        transform: scale(0.65);
+        margin-top: 100px;
+    }
+    
+    .time-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 28px !important;
+    }
+}

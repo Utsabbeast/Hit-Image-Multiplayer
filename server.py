@@ -16,11 +16,34 @@ async def get():
     return HTMLResponse(content=html_content)
 
 # --- LEADERBOARD LOGIC ---
-leaderboard_data: Dict[str, List[Dict[str, Any]]] = {
-    "30": [],
-    "60": [],
-    "120": []
-}
+LEADERBOARD_FILE = "leaderboard.json"
+
+def load_leaderboard() -> Dict[str, List[Dict[str, Any]]]:
+    if os.path.exists(LEADERBOARD_FILE):
+        try:
+            with open(LEADERBOARD_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading leaderboard: {e}")
+    # Default empty leaderboard
+    return {
+        "30": [],
+        "60": [],
+        "120": []
+    }
+
+def save_leaderboard(data: Dict[str, List[Dict[str, Any]]]):
+    try:
+        with open(LEADERBOARD_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        print(f"Error saving leaderboard: {e}")
+
+leaderboard_data = load_leaderboard()
+
+@app.get("/leaderboard")
+async def get_leaderboard():
+    return leaderboard_data
 
 @app.post("/leaderboard")
 async def post_score(request: Request):
@@ -37,9 +60,11 @@ async def post_score(request: Request):
     leaderboard_data[time_key].sort(key=lambda x: x["score"], reverse=True)
     
     # Keep top 3
-    # Use re-assignment with standard list slicing to silence IDE linting
     current_list = leaderboard_data[time_key]
     leaderboard_data[time_key] = cast(List[Dict[str, Any]], current_list[:3])
+    
+    # Save after updating
+    save_leaderboard(leaderboard_data)
     
     return {"status": "success"}
 
