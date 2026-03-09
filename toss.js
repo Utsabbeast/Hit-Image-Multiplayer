@@ -649,12 +649,12 @@ function fetchLeaderboard(timeMode) {
 
     document.getElementById('leaderboard-list').innerHTML = "Loading...";
 
-    fetch(`/leaderboard?time=${timeMode}`)
+    fetch(`/leaderboard`)
         .then(response => response.json())
         .then(data => {
             let html = "<ol style='padding-left: 20px; margin-top: 5px;'>";
-            if (data.scores && data.scores.length > 0) {
-                data.scores.forEach(entry => {
+            if (data[timeMode] && data[timeMode].length > 0) {
+                data[timeMode].forEach(entry => {
                     html += `<li style='margin-bottom: 5px; border-bottom: 1px dotted rgba(0,0,0,0.1); padding-bottom: 5px;'>
                                 <b>${entry.name}</b>: ${entry.score} pts
                              </li>`;
@@ -687,7 +687,10 @@ function submitScore(timeMode, score) {
 
     fetch('/leaderboard', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
         body: JSON.stringify({ name: playerNameCache, score: score, time: timeMode })
     })
         .then(() => fetchLeaderboard(timeMode)) // Refresh leaderboard immediately
