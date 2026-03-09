@@ -55,4 +55,4 @@ If you want to run the game on your own machine:
    Open your browser and navigate to `http://localhost:8000`
 
 ---
-*Created by Utsab Das*
+*Created by Utsab*
